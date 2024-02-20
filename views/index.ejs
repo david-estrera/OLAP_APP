@@ -1,3 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLAP Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-    <h1>sup</h1>
+    <h1>OLAP Application</h1>
+    <form id="dataForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="specialization">Specialization:</label><br>
+        <input type="text" id="specialization" name="specialization"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="output">
+        <!-- Output from backend will be displayed here -->
+    </div>
+
+    <script src="scripts.js"></script>
 </body>
+</html>
