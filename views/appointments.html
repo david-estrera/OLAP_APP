@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drill Down</title>
-    <link rel="stylesheet" href="../styles.css"> 
+    <title>Slice</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <nav>
@@ -25,9 +25,17 @@
         </div>
     </nav>
 
-    <h1 class="title">DRILL DOWN</h1>
-    <p class="description">View appointments for each doctor within a clinic.</p>
+    <h1 class="title2">APPOINTMENTS</h1>
 
+    <form class="search-form" action="#" method="get">
+        <input type="text" name="search" id="search" placeholder="Search...">
+        <select name="option" id="option">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
 
     <table class="data-table">
         <tr>
@@ -43,6 +51,3 @@
     <script src="scripts.js"></script>
 </body>
 </html>
-
-
-

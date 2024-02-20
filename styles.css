@@ -1,3 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+    margin-right: 200px; 
+}
+
+label {
+    font-weight: bold;
+}
+
+/* NAVBAR */
 nav {
     background-color: #333;
     overflow: hidden;
@@ -34,7 +44,7 @@ nav {
     display: block;
     color: white;
     text-decoration: none;
-    padding: 50px 50px; 
+    padding: 50px 20px; 
 }
 
 .navbar-right ul li a:hover {
@@ -42,19 +52,59 @@ nav {
 }
 
 
-body {
-    font-family: Arial, sans-serif;
-    margin-right: 200px; 
+.title {
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 140px;
+    font-size: 100px; 
+    color: #333; 
+    font-family: 'Roboto', sans-serif; 
 }
+
+.title2 {
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 140px;
+    font-size: 90px;
+    margin-bottom: -25px;
+    color: #333; 
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.description {
+    margin-left: 100px;
+    text-align: center;
+    margin-top: -55px;
+    font-size: 18px;
+    color: #666;
+}
+
+.data-table {
+    margin-left: 100px;
+    margin: 30px auto;
+    align-items: center;
+    border-collapse: collapse;
+}
+
+.data-table td, .data-table th {
+    margin-left: 100px;
+    border: 2px solid #373737;
+    padding: 8px;
+}
+
+.data-table th {
+    margin-left: 100px;
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+/*SEARCH BAR */
 
 form {
     margin-bottom: 20px;
+    margin-left: 100px;
 }
-
-label {
-    font-weight: bold;
-}
-
 input[type="text"] {
     width: 100%;
     padding: 8px;
@@ -63,33 +113,38 @@ input[type="text"] {
     border-radius: 4px;
 }
 
-.title {
-    text-align: center;
-    margin-top: 140px;
-    font-size: 100px; 
-    color: #333; 
-    font-family: 'Roboto', sans-serif; 
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-.description {
-    text-align: center;
-    margin-top: -55px;
-    font-size: 18px;
-    color: #666;
+
+.search-form input[type="text"] {
+    width: 400px; 
+    height: 30px;
+    padding: 8px; 
+    margin-right: -10px; 
+    margin-top: 18px;
 }
 
-.data-table {
-    margin: 30px auto;
-    align-items: center;
-    border-collapse: collapse;
+.search-form button {
+    padding: 6px 30px;
+    font-size: 10px; 
+    border: none;
+    background-color: #5b5b5b; 
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 18px;
+    margin-bottom: 16px;
 }
 
-.data-table td, .data-table th {
-    border: 2px solid #373737;
+.search-form select {
     padding: 8px;
-}
-
-.data-table th {
-    background-color: #f2f2f2;
-    text-align: left;
+    margin: 17px;
+    margin-right: -12px;
+    margin-top: 18px;
+    margin-bottom: 16px;
+    border-radius: 4px;
 }
