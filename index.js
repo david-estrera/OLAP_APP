@@ -31,3 +31,25 @@ app.get('/test', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}.`);
 })
+
+app.post('/num_appointments', async (req, res) => {
+    let { data, error } = await supabase
+    .rpc('get_appointment_counts')
+
+    if (error) {
+        res.send(error)
+    };
+
+  res.send(data);
+});
+
+app.post('/docByHosp', async (req, res) => {
+    console.log(req.body.Hospital);
+    let { data, error } = await supabase
+    .rpc('get_doctor_by_clinic', {hospname: req.body.Hospital});
+    if (error) {
+        res.send(error)
+    };
+
+  res.send(data);
+});
