@@ -26,19 +26,49 @@
     </nav>
 
     <h1 class="title">ROLL UP</h1>
-    <p class="description">Summarize the number of appointments per hospital.</p>
+    <p class="description">Count the number of appointments per hospital.</p>
 
     <table class="data-table">
-        <tr>
-            <td>COLUMN NAME</td>
-            <td>COLUMN NAME</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Appointment Count</th>
+                <th>Appointment Type</th>
+                <th>Is Virtual</th>
+                <th>Hospital Name</th>
+                <th>City</th>
+                <th>Province</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        <tbody id="appointments-summary">
+            <!-- Data will be populated dynamically -->
+        </tbody>
     </table>
 
-    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/num_appointments');
+                const data = await response.json();
+                
+                const tableBody = document.getElementById('appointments-summary');
+                data.forEach(appointment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${appointment.num_appointments}</td>
+                        <td>${appointment.a_type}</td>
+                        <td>${appointment.a_isvirtual}</td>
+                        <td>${appointment.c_hospital}</td>
+                        <td>${appointment.c_city}</td>
+                        <td>${appointment.c_province}</td>
+                        <td>${appointment.c_region}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying appointment counts:', error.message);
+            }
+        });
+    </script>
 </body>
 </html>

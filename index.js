@@ -67,39 +67,64 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}.`);
 })
 
-
+// ROLL UP
 app.get('/num_appointments', async (req, res) => {
-    let { data, error } = await supabase
-    .rpc('get_appointment_counts')
-
-    if (error) {
-        res.send(error)
-    };
-
-  res.send(data);
-});
-
-app.get('/docByHosp', async (req, res) => {
-    let { data, error } = await supabase
-    .rpc('get_doctor_by_clinic', {hospname: req.body.Hospital});
-    if (error) {
-        res.send(error)
+    try {
+        let { data, error } = await supabase.rpc('get_appointment_counts');
+        if (error) {
+            throw error;
+        }
+        res.json(data);
+        console.log(data);
+    } catch (error) {
+        console.error('Error fetching appointment counts:', error.message);
+        res.status(500).send('Internal Server Error');
     }
 });
-    
-app.get('/patientsAppointment', async (req, res) => {
+
+
+//DRILL DOWN
+app.get('/docByHosp', async (req, res) => {
+    try {
+        const hospname = req.query.hospname; 
+        let { data, error } = await supabase
+            .rpc('get_doctor_by_clinic', { hospname: hospname });
+        if (error) {
+            res.status(500).json({ error: error.message });
+        } else {
+            res.json(data);
+            console.log(data);
+        }
+    } catch (error) {
+        console.error('Error fetching doctor information by clinic:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+//DICE
+app.post('/patientsAppointment', async (req, res) => {
     console.log(req.body.patientsid);
-    let { data, error } = await supabase
-    .rpc('get_appointments_by_patient', {patientsid: req.body.patientsid,
-                                        year: req.body.year});
-    if (error) {
-        res.send(error)
-    };
-  res.send(data);
+    try {
+        let { data, error } = await supabase.rpc('get_appointments_by_patient', {
+            patientsid: req.body.patientsid,
+            year: req.body.year
+        });
+        if (error) {
+            res.send(error);
+        } else {
+            res.json(data); 
+            console.log(data);
+        }
+    } catch (error) {
+        console.error('Error fetching appointments:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 
 
+//SLICE
 app.get('/appointmentsClinic', async (req, res) => {
     console.log(req.body.hospitalid);
     let { data, error } = await supabase
@@ -117,5 +142,7 @@ app.get('/appointmentsClinic', async (req, res) => {
     if (error) {
         res.send(error)
     };
-  res.send(data);
+  res.render(data);
+  console.log(data);
 });
+

@@ -27,49 +27,57 @@
 
     <h1 class="title">DRILL DOWN</h1>
     <p class="description">View appointments for each doctor within a clinic.</p>
+    <form class="search-form" action="/docByHosp" method="GET">
+        <input type="text" id="hospitalInput" name="hospname" placeholder="Enter Hospital Name...">
+        <button type="submit">Search</button>
+    </form>
 
     <table class="data-table" id="appointments-table">
         <thead>
             <tr>
-                <th>Appointment ID</th>
-                <th>Status</th>
-                <th>Queue Time</th>
-                <!-- Add more table headers as needed -->
+                <th>Hospital</th>
+                <th>City</th>
+                <th>Doctor ID</th>
+                <th>Specialty</th>
+                <th>Queue</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Table rows will be populated dynamically -->
+        <tbody id="appointments-table-body">
         </tbody>
     </table>
-    
-</body>
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
-        try {
-            // Get the hospitalid from the query string
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const hospitalid = urlParams.get('hospitalid');
+        const form = document.querySelector('.search-form');
+        const tableBody = document.querySelector('#appointments-table-body');
 
-            // Fetch appointments for the specified clinic
-            const response = await fetch(`/appointmentsClinic?hospitalid=${hospitalid}`);
-            const data = await response.json();
-            
-            // Populate the table with the fetched data
-            const tableBody = document.querySelector('#appointments-table tbody');
-            data.forEach(appointment => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${appointment.a_id}</td>
-                    <td>${appointment.a_status}</td>
-                    <td>${appointment.a_queuetime}</td>
-                    <!-- Add more table data as needed -->
-                `;
-                tableBody.appendChild(row);
-            });
-        } catch (error) {
-            console.error('Error fetching and displaying appointments:', error.message);
-        }
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); 
+
+            const formData = new FormData(form);
+            const hospname = formData.get('hospname');
+
+            try {
+                const response = await fetch(`/docByHosp?hospname=${hospname}`);
+                const data = await response.json();
+
+                tableBody.innerHTML = '';
+                data.forEach(appointment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${appointment.hospital}</td>
+                        <td>${appointment.city}</td>
+                        <td>${appointment.doctor_id}</td>
+                        <td>${appointment.specialty}</td>
+                        <td>${appointment.queue}</td>
+                        <!-- Add more table data as needed -->
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying appointments:', error.message);
+            }
+        });
     });
 </script>
+</body>
 </html>
