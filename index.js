@@ -8,7 +8,8 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static("/public"));
+
 
 const supabaseUrl = 'https://myquawiyghqmhfkazkxr.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15cXVhd2l5Z2hxbWhma2F6a3hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDgzODE3NTksImV4cCI6MjAyMzk1Nzc1OX0.IKCmT6ZG3-lk8bbxnbljc5jTBHV9NzfkSsxJu43Rjfw'
@@ -26,6 +27,40 @@ app.get('/test', async (req, res) => {
         .from('doctors')
         .select()
     res.send(data);
+});
+
+
+// Define routes
+app.get('/appointments', (req, res) => {
+    res.render('appointments.ejs'); 
+});
+
+app.get('/patients', (req, res) => {
+    res.render('patients.ejs'); 
+});
+
+app.get('/clinics', (req, res) => {
+    res.render('clinics.ejs'); 
+});
+
+app.get('/doctors', (req, res) => {
+    res.render('doctors.ejs'); 
+});
+
+app.get('/drilldown', (req, res) => {
+    res.render('drilldown.ejs'); 
+});
+
+app.get('/rollup', (req, res) => {
+    res.render('rollup.ejs'); 
+});
+
+app.get('/dice', (req, res) => {
+    res.render('dice.ejs'); 
+});
+
+app.get('/slice', (req, res) => {
+    res.render('slice.ejs'); 
 });
 
 app.listen(port, () => {
