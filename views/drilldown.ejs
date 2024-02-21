@@ -38,32 +38,38 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Appointments data will be populated here -->
+            <!-- Table rows will be populated dynamically -->
         </tbody>
     </table>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const clinicId = 'YOUR_CLINIC_ID'; 
-                const response = await fetch(`/appointmentsClinic?clinicId=${clinicId}`);
-                const data = await response.json();
-                
-                const tableBody = document.querySelector('#appointments-table tbody');
-                data.forEach(appointment => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${appointment.a_id}</td>
-                        <td>${appointment.a_status}</td>
-                        <td>${appointment.a_queuetime}</td>
-                        <!-- Add more table data as needed -->
-                    `;
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('Error fetching and displaying appointments:', error.message);
-            }
-        });
-    </script>
+    
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            // Get the hospitalid from the query string
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const hospitalid = urlParams.get('hospitalid');
+
+            // Fetch appointments for the specified clinic
+            const response = await fetch(`/appointmentsClinic?hospitalid=${hospitalid}`);
+            const data = await response.json();
+            
+            // Populate the table with the fetched data
+            const tableBody = document.querySelector('#appointments-table tbody');
+            data.forEach(appointment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${appointment.a_id}</td>
+                    <td>${appointment.a_status}</td>
+                    <td>${appointment.a_queuetime}</td>
+                    <!-- Add more table data as needed -->
+                `;
+                tableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Error fetching and displaying appointments:', error.message);
+        }
+    });
+</script>
 </html>
