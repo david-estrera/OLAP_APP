@@ -67,22 +67,6 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}.`);
 })
 
-// ROLL UP
-app.get('/num_appointments', async (req, res) => {
-    try {
-        let { data, error } = await supabase.rpc('get_appointment_counts');
-        if (error) {
-            throw error;
-        }
-        res.json(data);
-        console.log(data);
-    } catch (error) {
-        console.error('Error fetching appointment counts:', error.message);
-        res.status(500).send('Internal Server Error');
-    }
-});
-
-
 //DRILL DOWN
 app.get('/docByHosp', async (req, res) => {
     try {
@@ -123,26 +107,101 @@ app.post('/patientsAppointment', async (req, res) => {
 });
 
 
+// ROLL UP
+app.get('/num_appointments', async (req, res) => {
+    try {
+        let { data, error } = await supabase.rpc('get_appointment_counts');
+        if (error) {
+            throw error;
+        }
+        res.json(data);
+        console.log(data);
+    } catch (error) {
+        console.error('Error fetching appointment counts:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 //SLICE
 app.get('/appointmentsClinic', async (req, res) => {
-    console.log(req.body.hospitalid);
+    try {
+        const hospitalId = req.query.hospitalid;
+        console.log(hospitalId);
+        if (!hospitalId) {
+            return res.status(400).json({ error: 'Hospital ID is required' });
+        }
+        let { data, error } = await supabase
+            .from('appointments')
+            .select(`a_id,
+                    a_status,
+                    a_queuetime,
+                    a_type,
+                    a_isvirtual,
+                    clinics (
+                        c_id,
+                        c_hospital
+                    )`)
+            .eq('c_id', hospitalId);
+
+            console.log(data);
+        if (error) {
+            console.log(data);
+            throw error;
+        }
+        
+        console.log(data);
+        res.json(data);
+    } catch (error) {
+        console.error('Error', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/t_appointments', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('appointments')
+            .select('a_id, p_id, c_id, d_id, a_status, a_queuetime, queuedate, a_starttime, a_endtime, a_type, a_isvirtual');
+        
+        if (error) {
+            return res.status(500).send(error.message);
+        }
+        res.render('appointments', { data });
+        console.log(data)
+    } catch (error) {
+        console.error('Error fetching appointments:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+app.get('/t_clinics', async (req, res) => {
     let { data, error } = await supabase
-    .from('appointments')
-    .select(`a_id,
-            a_status,
-            a_queuetime,
-            a_type,
-            a_isvirtual,
-            clinics (
-                c_id,
-                c_hospital
-            )`)
-    .eq('c_id', req.body.hospitalid) 
+    .from('clinics')
+    .select('clinics')
     if (error) {
         res.send(error)
     };
-  res.render(data);
-  console.log(data);
+  res.send(data);
 });
 
+app.get('/t_doctors', async (req, res) => {
+    let { data, error } = await supabase
+    .from('doctors')
+    .select('doctors')
+    if (error) {
+        res.send(error)
+    };
+  res.send(data);
+});
+
+app.get('/t_patients', async (req, res) => {
+    let { data, error } = await supabase
+    .from('patients')
+    .select('patients')
+    if (error) {
+        res.send(error)
+    };
+  res.send(data);
+});

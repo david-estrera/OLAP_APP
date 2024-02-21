@@ -1,6 +1,10 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-right: 200px; 
+}
+
+h1 {
+    color: #ffffff;
 }
 
 label {
@@ -54,7 +58,6 @@ nav {
 
 .title {
     text-align: center;
-    margin-left: 100px;
     margin-top: 140px;
     font-size: 100px; 
     color: #333; 
@@ -63,7 +66,6 @@ nav {
 
 .title2 {
     text-align: center;
-    margin-left: 100px;
     margin-top: 140px;
     font-size: 90px;
     margin-bottom: -25px;
@@ -73,7 +75,6 @@ nav {
 }
 
 .description {
-    margin-left: 100px;
     text-align: center;
     margin-top: -55px;
     font-size: 18px;
@@ -81,26 +82,25 @@ nav {
 }
 
 .data-table {
-    margin-left: 100px;
+    margin-left: 200px;
     margin: 30px auto;
     align-items: center;
     border-collapse: collapse;
 }
 
 .data-table td, .data-table th {
-    margin-left: 100px;
+    margin-left: 200px;
     border: 2px solid #373737;
     padding: 8px;
 }
 
 .data-table th {
-    margin-left: 100px;
+    margin-left: 200px;
     background-color: #f2f2f2;
     text-align: left;
 }
 
 /*SEARCH BAR */
-
 form {
     margin-bottom: 20px;
     margin-left: 100px;

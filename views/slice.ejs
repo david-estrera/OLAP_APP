@@ -9,7 +9,7 @@
 <body>
     <nav>
         <div class="navbar-left">
-            <h1>GROUP 11 OLAP</h1> 
+            <h1><a href="/">GROUP 34 OLAP</a></h1> 
         </div>
         <div class="navbar-right">
             <ul>
@@ -26,19 +26,65 @@
     </nav>
 
     <h1 class="title">SLICE</h1>
-    <p class="description">View appointments only for a specific clinic.</p>
+    <p class="description">View appointments only for a specific Hospital.</p>
+
+    <form class="search-form" action="/appointmentsClinic" method="GET">
+        <input type="text" id="hospitalId" name="hospitalid" placeholder="Enter Hospital ID...">
+        <button type="submit">Search</button>
+    </form>
 
     <table class="data-table">
-        <tr>
-            <td>COLUMN NAME</td>
-            <td>COLUMN NAME</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <th>Status</th>
+                <th>Queue Time</th>
+                <th>Appointment Type</th>
+                <th>Is Virtual</th>
+                <th>Clinic ID</th>
+                <th>Clinic Hospital</th>
+            </tr>
+        </thead>
+        <tbody id="appointments-clinic">
+            <!-- Data will be populated dynamically -->
+        </tbody>
     </table>
+    
 
-    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const form = document.querySelector('.search-form');
+            const tableBody = document.querySelector('#appointments-clinic');
+    
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault(); 
+    
+                const formData = new FormData(form);
+                const hospitalId = formData.get('hospitalid');
+    
+                try {
+                    const response = await fetch(`/appointmentsClinic?hospitalid=${hospitalId}`);
+                    const data = await response.json();
+    
+                    tableBody.innerHTML = '';
+                    data.forEach(appointment => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${appointment.a_id}</td>
+                            <td>${appointment.a_status}</td>
+                            <td>${appointment.a_queuetime}</td>
+                            <td>${appointment.a_type}</td>
+                            <td>${appointment.a_isvirtual}</td>
+                            <td>${appointment.clinics.c_id}</td>
+                            <td>${appointment.clinics.c_hospital}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Error fetching and displaying appointments:', error.message);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
