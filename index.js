@@ -32,7 +32,8 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}.`);
 })
 
-app.post('/num_appointments', async (req, res) => {
+
+app.get('/num_appointments', async (req, res) => {
     let { data, error } = await supabase
     .rpc('get_appointment_counts')
 
@@ -43,13 +44,43 @@ app.post('/num_appointments', async (req, res) => {
   res.send(data);
 });
 
-app.post('/docByHosp', async (req, res) => {
-    console.log(req.body.Hospital);
+app.get('/docByHosp', async (req, res) => {
     let { data, error } = await supabase
     .rpc('get_doctor_by_clinic', {hospname: req.body.Hospital});
     if (error) {
         res.send(error)
+    }
+});
+    
+app.get('/patientsAppointment', async (req, res) => {
+    console.log(req.body.patientsid);
+    let { data, error } = await supabase
+    .rpc('get_appointments_by_patient', {patientsid: req.body.patientsid,
+                                        year: req.body.year});
+    if (error) {
+        res.send(error)
     };
+  res.send(data);
+});
 
+
+
+app.get('/appointmentsClinic', async (req, res) => {
+    console.log(req.body.hospitalid);
+    let { data, error } = await supabase
+    .from('appointments')
+    .select(`a_id,
+            a_status,
+            a_queuetime,
+            a_type,
+            a_isvirtual,
+            clinics (
+                c_id,
+                c_hospital
+            )`)
+    .eq('c_id', req.body.hospitalid) 
+    if (error) {
+        res.send(error)
+    };
   res.send(data);
 });

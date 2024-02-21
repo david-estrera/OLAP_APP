@@ -17,6 +17,7 @@
     "express": "^4.18.2",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.3",
+    "olap": "^0.0.5",
     "olap-cube-js": "^0.16.1",
     "postgres": "^3.4.3",
     "supabase": "^1.142.2"

@@ -1,0 +1,99 @@
+<table ng-init="
+	colspan = $ctrl.isCompositen ? $ctrl.keys.length + 1 : $ctrl.keys.length;
+"
+>
+	<thead>
+
+		<tr>
+			<td colspan="{{ colspan }}">
+
+				<span>
+					<!-- settings -->
+					<details style="display: inline-block; text-align: left;" ng-if="$ctrl.added || $ctrl.editable || $ctrl.removable" style="text-align: left">
+						<summary>options</summary>
+						<form>
+							<label ng-if="$ctrl.added">
+								<input type="checkbox" ng-model="$ctrl.addEnabled"/>
+								Enable add mode
+							</label>
+						</form>
+						<form>
+							<label ng-if="$ctrl.editable">
+								<input type="checkbox" ng-model="$ctrl.editEnabled"/>
+								Enable editable mode
+							</label>
+						</form>
+						<form>
+							<label ng-if="$ctrl.removable">
+								<input type="checkbox" ng-model="$ctrl.removeEnabled"/>
+								Enable removable mode
+							</label>
+						</form>
+					</details>
+				</span>
+
+				{{ $ctrl.tableData.headerName }}
+		</tr>
+		<!-- arguments + name of category column -->
+		<tr>
+			<td ng-repeat="key in $ctrl.keys track by $index">
+				{{ key }}
+			</td>
+			<td ng-if="$ctrl.tableData.categoryName">
+				{{ $ctrl.tableData.categoryName }}
+			</td>
+		</tr>
+	</thead>
+
+	<tbody>
+
+		<tr ng-if="$ctrl.isCompositen" ng-repeat="row in $ctrl.tableData.rows track by $index">
+
+			<td ng-repeat="key in $ctrl.keys track by $index">
+				<div ng-if="$index === 0">
+					<button ng-if="$ctrl.removeEnabled" ng-click="$ctrl.handleRemove($ctrl.tableData, row.member)">remove</button>
+					<span ng-if="!$ctrl.editEnabled">{{ row.member[key] }}</span>
+				</div>
+				<div ng-if="$index !== 0">
+					<input ng-if="$ctrl.editEnabled" ng-model="row.member[key]">
+					<span ng-if="!$ctrl.editEnabled">{{ row.member[key] }}</span>
+				</div>
+			</td>
+
+			<td>
+				<tree-table
+					table-data="row"
+					added="$ctrl.added"
+					editable="$ctrl.editable"
+					removable="$ctrl.removable"
+					on-change="$ctrl.onChange()"
+				>
+				</tree-table>
+			</td>
+		</tr>
+
+		<tr ng-if="!$ctrl.isCompositen" ng-repeat="row in $ctrl.tableData.rows track by $index">
+			<td ng-repeat="key in $ctrl.keys track by $index">
+				<div ng-if="$index === 0">
+					<button ng-if="$ctrl.removeEnabled" ng-click="$ctrl.handleRemove($ctrl.tableData, row.member)" >Remove</button>
+					<span ng-if="!$ctrl.editEnabled">{{row.member[key]}}</span>
+				</div>
+				<div ng-if="$index !== 0">
+					<input ng-if="$ctrl.editEnabled" ng-model="row.member[key]">
+					<span ng-if="!$ctrl.editEnabled">{{row.member[key]}}</span>
+				</div>
+			</td>
+		</tr>
+
+	</tbody>
+
+	<tfoot>
+		<tr ng-if="$ctrl.added && $ctrl.addEnabled">
+			<td ng-repeat="key in $ctrl.keys track by $index">
+				<button  ng-if="$index === 0"  ng-click="$ctrl.handleAdd($ctrl.tableData, $ctrl.valuesToAdd)" >Add</button>
+				<input ng-if="$index !== 0"  ng-model="$ctrl.valuesToAdd[key]" placeholder="Enter {{key}}" />
+			</td>
+		</tr>
+	</tfoot>
+
+</table>

@@ -28,21 +28,42 @@
     <h1 class="title">DRILL DOWN</h1>
     <p class="description">View appointments for each doctor within a clinic.</p>
 
-
-    <table class="data-table">
-        <tr>
-            <td>COLUMN NAME</td>
-            <td>COLUMN NAME</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
+    <table class="data-table" id="appointments-table">
+        <thead>
+            <tr>
+                <th>Appointment ID</th>
+                <th>Status</th>
+                <th>Queue Time</th>
+                <!-- Add more table headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Appointments data will be populated here -->
+        </tbody>
     </table>
 
-    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const clinicId = 'YOUR_CLINIC_ID'; 
+                const response = await fetch(`/appointmentsClinic?clinicId=${clinicId}`);
+                const data = await response.json();
+                
+                const tableBody = document.querySelector('#appointments-table tbody');
+                data.forEach(appointment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${appointment.a_id}</td>
+                        <td>${appointment.a_status}</td>
+                        <td>${appointment.a_queuetime}</td>
+                        <!-- Add more table data as needed -->
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching and displaying appointments:', error.message);
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-

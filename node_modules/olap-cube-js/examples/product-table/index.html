@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="https://code.angularjs.org/1.6.9/angular.min.js"></script>
+	<link rel="stylesheet" href="./style.css">
+
+	<!-- try build -->
+	<script src="../../vendors/Array.from.js"></script>
+	<script src="../../vendors/Array.find.js"></script>
+	<script src="../../dist/cube.js"></script>
+	<script src="./app.js"></script>
+	<script src="./component/tree-table.js"></script>
+	<script src="./component/TreeTableData.js"></script>
+	<script src="./model/ProductCube.js"></script>
+	<script src="./data/factTable.js"></script>
+	<script src="./data/dimensionHierarchies.js"></script>
+</head>
+<body>
+	<div ng-controller="AppController">
+		<div class="parent">
+			<div>
+				<section>
+					<h2>Input data</h2>
+					<tree-table
+						editable="false"
+						table-data="factTable"
+					></tree-table>
+				</section>
+				<section>
+					<h2>Output data</h2>
+					<button ng-click="cube.fillEmptyCells()">Normalize data</button>
+					<p>Current size: {{ cube.getFacts().length }}</p>
+					<p>Size of table after filling: {{ cube.cartesian().length - cube.unfilled().length }}</p>
+					<p>Count of unfilling cells: {{ cube.unfilled().length }}</p>
+					<br/>
+					<tree-table
+						editable="false"
+						ng-if="outputData"
+						table-data="outputData"
+					></tree-table>
+				</section>
+			</div>
+
+			<div>
+				<details open>
+					<summary>
+						Dimension Categories Tables<sup>(output data)</sup>
+					</summary>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="yearQrMonthTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="yearQrTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="qrMonthTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+
+				</details>
+			</div>
+
+			<div>
+				<details open>
+					<summary>
+						Dimension Tables <sup>(output data)</sup>
+					</summary>
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="productTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="marketTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="markTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="yearTable"
+							on-change="reset()"
+						></tree-table>
+					</section>
+				</details>
+			</div>
+
+			<div>
+				<details open>
+					<summary>
+						Specialized Dimension Tables <sup>(output data)</sup>
+					</summary>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="qrTable"
+							on-change="reset()"
+							selected-data="fotQrTable"
+						></tree-table>
+						<label>
+							<strong>year</strong>
+							<select ng-model="qr_selectedYear">
+								<option value="" selected>ALL</option>
+								<option ng-repeat="row in yearTable.rows track by $index" ng-value="{{row.member}}" >{{row.member.year}}</option>
+							</select>
+						</label>
+					</section>
+
+					<section>
+						<tree-table
+							added="true"
+							editable="true"
+							removable="true"
+							table-data="monthTable"
+							on-change="reset()"
+							selected-data="forMonthTable"
+						></tree-table>
+						<label>
+							<strong>qr</strong>
+							<select ng-model="month_selectedQr">
+								<option value="" selected>ALL</option>
+								<option ng-repeat="row in monthQrTableRows track by $index" ng-value="{{row.member}}" >{{row.member.qr}}</option>
+							</select>
+						</label>
+						<label>
+							<strong>year</strong>
+							<select ng-model="month_selectedYear">
+								<option value="" selected>ALL</option>
+								<option ng-repeat="row in monthYearTableRows track by $index" ng-value="{{row.member}}" >{{row.member.year}}</option>
+							</select>
+						</label>
+					</section>
+				</details>
+			</div>
+		</div>
+
+		<details open>
+			<summary>
+				Schema - aggregate data<sup>(input data)</sup>
+			</summary>
+			Dimension Hierarchy:
+			<p>
+				<code style="white-space: pre">
+					[money]
+					&#9;\- [month]
+					&#9;&#9;\- [qr]
+					&#9;&#9;&#9;\- [year]
+					&#9;\- [product]
+					&#9;\- [market]
+					&#9;\- [mark]
+				</code>
+			</p>
+
+		</details>
+	</div>
+
+	<script>
+		angular.bootstrap(document, ['demo']);
+	</script>
+</body>
+</html>

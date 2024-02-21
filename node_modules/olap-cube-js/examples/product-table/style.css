@@ -1,0 +1,46 @@
+dimension-table, category-table {
+	display: inline-block;
+	vertical-align: top;
+}
+
+body{
+	background: ghostwhite;
+	font-family: monospace;
+}
+
+table{
+	border: 1px solid black;
+	text-align: center;
+	background: white
+}
+
+thead{
+	font-weight: bold;
+	background: darkseagreen;
+}
+
+td{
+	padding: 0 10px;
+}
+
+section{
+	display: table;
+	padding: 10px;
+	background: lightslategray;
+	margin-bottom: 30px;
+}
+
+.parent {
+	display: table;
+	width: 100%;
+	align-items: center;
+}
+
+.parent > div {
+	display: table-cell;
+	padding: 10px;
+}
+
+p{
+	margin: 0;
+}
