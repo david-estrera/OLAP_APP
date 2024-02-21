@@ -39,7 +39,7 @@
     <p class="description">Select appointments for a specific patient on a specific date.</p>
 
     <div class="form-container">
-        <form class="searchpatients" id="appointmentForm" action="/patientsAppointment" method="POST">
+        <form class="searchpatients" id="appointmentForm" action="/patientsAppointment" method="GET">
             <input type="text" id="patientsid" name="patientsid" placeholder="Enter Patient ID...">
             <input type="text" id="year" name="year" placeholder="Enter year...">
             <button type="submit">Submit</button>
@@ -49,9 +49,12 @@
     <table class="data-table" id="appointmentsTable">
         <thead>
             <tr>
-                <th>Appointment ID</th>
                 <th>Status</th>
                 <th>Queue Time</th>
+                <th>Type</th>
+                <th>if Virtual</th>
+                <th>Age</th>
+                <th>Gender</th>
             </tr>
         </thead>
         <tbody id="appointmentData">
@@ -79,15 +82,17 @@
                     const data = await response.json();
 
                     const tableBody = document.getElementById('appointmentData');
-                    tableBody.innerHTML = ''; // Clear previous data
+                    tableBody.innerHTML = ''; 
 
                     data.forEach(appointment => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${appointment.a_id}</td>
-                            <td>${appointment.a_status}</td>
-                            <td>${appointment.a_queuetime}</td>
-                            <!-- Add more table data as needed -->
+                            <td>${appointment.status}</td>
+                            <td>${appointment.queuetime}</td>
+                            <td>${appointment.type}</td>
+                            <td>${appointment.virtual}</td>
+                            <td>${appointment.age}</td>
+                            <td>${appointment.gender}</td>
                         `;
                         tableBody.appendChild(row);
                     });

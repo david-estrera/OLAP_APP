@@ -158,6 +158,14 @@ app.get('/appointmentsClinic', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
 app.get('/t_appointments', async (req, res) => {
     try {
         const { data, error } = await supabase
@@ -167,7 +175,7 @@ app.get('/t_appointments', async (req, res) => {
         if (error) {
             return res.status(500).send(error.message);
         }
-        res.render('appointments', { data });
+        res.json(data);
         console.log(data)
     } catch (error) {
         console.error('Error fetching appointments:', error.message);
