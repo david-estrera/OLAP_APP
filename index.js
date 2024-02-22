@@ -63,10 +63,6 @@ app.get('/slice', (req, res) => {
     res.render('slice.ejs'); 
 });
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}.`);
-})
-
 //DRILL DOWN
 app.get('/docByHosp', async (req, res) => {
     try {
@@ -213,3 +209,9 @@ app.get('/t_patients', async (req, res) => {
     };
   res.send(data);
 });
+
+
+
+app.listen(process.env.PORT || port, () => {
+    console.log(`Server running on port ${port}.`);
+})
